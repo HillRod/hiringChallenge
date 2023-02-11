@@ -1,7 +1,8 @@
 import React from 'react'
 import App from '../App'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-
+import PostsProvider from '../context/posts/Provider'
+import Posts from '../views'
 
 
 export default function RoutesPrincipal() {
@@ -11,9 +12,9 @@ export default function RoutesPrincipal() {
       <Routes>
         {/*Index Route*/}
         <Route path='/' element={
-          <>
-            <App />
-          </>
+          <PostsProvider>
+            <Posts/>
+          </PostsProvider>
         } />
 
         {/*404 Route*/}

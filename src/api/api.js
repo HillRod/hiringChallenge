@@ -10,6 +10,7 @@ API.interceptors.response.use(
   (response) => response,
   (error) => {
     const { status } = error.response;
+    console.log(`Error status: ${status}`);
     throw error;
   }
 );
