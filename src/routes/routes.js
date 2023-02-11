@@ -2,7 +2,7 @@ import React from 'react'
 import App from '../App'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import PostsProvider from '../context/posts/Provider'
-import Posts from '../views'
+import Posts from '../views/Index/index'
 
 
 export default function RoutesPrincipal() {

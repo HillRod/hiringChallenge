@@ -16,6 +16,7 @@ export default function PostsProvider({ children }) {
   const getPosts = async () => {
     const { data } = await API.get('/posts');
     console.log(data)
+    setPosts(data);
   }
 
 
