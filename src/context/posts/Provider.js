@@ -15,8 +15,17 @@ export default function PostsProvider({ children }) {
 
   const getPosts = async () => {
     const { data } = await API.get('/posts');
-    console.log(data)
-    setPosts(data);
+    // debugger;
+    const posts = data.map(p => {
+      return ({
+        id: p.id,
+        title: p.title,
+        body: p.body,
+        topic: '',
+        img: `https://source.unsplash.com/random?sig=${Math.floor(Math.random()*100000000*p.id)}`,
+      })
+    })
+    setPosts(posts);
   }
 
 

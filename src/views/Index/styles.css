@@ -1,0 +1,26 @@
+.s-text {
+  font-size: 18px;
+}
+
+.slogan {
+  color: #FB7B58;
+}
+
+.bracket {
+  font-weight: 100;
+}
+
+.card {
+  border-radius: 0px  !important;
+}
+
+.card-img-overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 0px !important;
+}
+
+.card-img {
+  border-radius: 0px !important;
+  object-fit: cover;
+  height: 20rem;
+}

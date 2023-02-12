@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from "react";
-import { Container, Row, Navbar, Nav } from "react-bootstrap";
+import { Container, Row, Navbar, Nav, Col, Card } from "react-bootstrap";
 import { PostsContext } from "../../context/posts";
 import Header from "./components/Header";
+import "./styles.css";
 
 export default function Posts() {
 
@@ -20,12 +21,20 @@ export default function Posts() {
           {loading ? (
             <h1>Loading...</h1>
           ) : (
-            posts.map((post) => (
-              <div key={post.id}>
-                <h1>{post.title}</h1>
-                <p>{post.body}</p>
-              </div>
-            ))
+            <>
+              
+              {posts.map((post) => (
+                <Col sm={12} md={6} key={post.id} className="px-0">
+                <Card class="card">
+                  <Card.Img class="card-img" src={post.img} alt="Bologna" />
+                  <Card.ImgOverlay class="card-img-overlay text-white d-flex flex-column justify-content-center">
+                    <h4 class="card-title">{post.title}</h4>
+                    <p class="card-text">{post.body}</p>
+                  </Card.ImgOverlay>
+                </Card>
+              </Col>
+              ))}
+            </>
           )}
 
         </Row>
