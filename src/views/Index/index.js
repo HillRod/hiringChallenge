@@ -29,12 +29,12 @@ export default function Posts() {
               
               {posts.map((post) => (
                 <Col sm={12} md={6} key={post.id} className="px-0">
-                <Card class="card">
-                  <Card.Img class="card-img" src={post.img} alt="Bologna" />
-                  <Card.ImgOverlay class="card-img-overlay text-white d-flex flex-column justify-content-center">
-                    <h4 class="card-title">{post.title}</h4>
-                    <p class="card-text">{post.body}</p>
-                    <p class="card-text">{post.categorie}</p>
+                <Card className="card">
+                  <Card.Img className="card-img" src={post.img} alt="Bologna" />
+                  <Card.ImgOverlay className="card-img-overlay text-white d-flex flex-column justify-content-center">
+                    <h4 className="card-title">{post.title}</h4>
+                    <p className="card-text">{post.body}</p>
+                    <p className="card-text">{post.categorie}</p>
                   </Card.ImgOverlay>
                 </Card>
               </Col>

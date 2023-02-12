@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { PostsContext } from '../../../context/posts';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { Col, Container, Form, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { TextField, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 
 export default function PostModal({ post, show, handleClose }) {
@@ -39,8 +39,8 @@ export default function PostModal({ post, show, handleClose }) {
                   label="Category"
                 // onChange={handleChange}
                 >
-                  {arrCategories.map((categorie) => (
-                    <MenuItem value={categorie}>{categorie}</MenuItem>
+                  {arrCategories.map((categorie, i) => (
+                    <MenuItem key={i} value={categorie}>{categorie}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
