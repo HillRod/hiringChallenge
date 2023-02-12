@@ -12,19 +12,20 @@ export default function PostsProvider({ children }) {
   //post seleccionado
   //const [activePost, setActivePost] = useState(null)
 
-  const arrCategories = ['Travel', 'Lifestyle', 'Business', 'Food', 'Work']
+  const arrCategories = ['Travel', 'Lifestyle', 'Business', 'Food', 'Work'];
 
   const getPosts = async () => {
     setLoading(true)
+    //Obtencion de datos de la API
     const { data } = await API.get('/posts');
-    // debugger;
+    //Mappeado de datos agregando categorias y imagenes
     const posts = data.map(p => {
       return ({
         id: p.id,
         title: p.title,
         body: p.body,
         categorie: arrCategories[Math.floor(Math.random() * arrCategories.length)],
-        img: `https://source.unsplash.com/random?sig=${Math.floor(Math.random()*100000000*p.id)}`,
+        img: `https://source.unsplash.com/random?sig=${Math.floor(Math.random() * 100000000 * p.id)}`,
       })
     })
     setPosts(posts);
@@ -33,6 +34,11 @@ export default function PostsProvider({ children }) {
 
   const createPost = async (post) => {
     setLoading(true)
+    //Llamada a la API para crear un post
+    const { data } = await API.post('/posts', post);
+    //Agregado de post al array de posts
+    setPosts([data, ...posts]);
+    setLoading(false)
   }
 
 
@@ -41,6 +47,8 @@ export default function PostsProvider({ children }) {
       posts,
       getPosts,
       loading,
+      createPost,
+      arrCategories
     }}>
       {children}
     </PostsContext.Provider>

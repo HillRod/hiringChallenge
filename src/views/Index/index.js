@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Container, Row, Navbar, Nav, Col, Card } from "react-bootstrap";
 import { PostsContext } from "../../context/posts";
 import Header from "./components/Header";
+import PostModal from "./components/PostModal";
 import "./styles.css";
 
 export default function Posts() {
@@ -15,6 +16,7 @@ export default function Posts() {
   return (
 
     <>
+      <PostModal/>
       <Header />
       <Container fluid>
         <Row>
