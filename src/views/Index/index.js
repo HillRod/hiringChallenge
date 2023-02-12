@@ -9,6 +9,7 @@ import "./styles.css";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
+import NavBar from "./components/Navbar";
 
 export default function Posts() {
 
@@ -28,7 +29,6 @@ export default function Posts() {
 
   //Redirect to post detail
   const actionPost = (id) => {
-    debugger;
     navigate(`/post/${id}`);
   }
 
@@ -41,6 +41,7 @@ export default function Posts() {
         <EditIcon />
       </Fab>
       <Header />
+      <NavBar />
       <Container fluid>
         <Row>
           {loading ? (

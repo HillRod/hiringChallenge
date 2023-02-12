@@ -46,7 +46,7 @@ function NotFound() {
   return (
     <div className='d-flex flex-column align-items-center justify-content-center' style={{ height: '100vh' }}>
       <h1>Oops! You seem to be lost.</h1>
-      <h1><a href='#' onClick={goToIndex}>Get back</a></h1>
+      <h1><a href='#404' onClick={goToIndex}>Get back</a></h1>
     </div>
   )
 }

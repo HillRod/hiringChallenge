@@ -24,7 +24,6 @@ export default function Header() {
           </Col>
         </Row>
       </Container>
-      <NavBar />
     </>
   );
 }

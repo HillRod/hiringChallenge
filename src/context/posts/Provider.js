@@ -67,6 +67,7 @@ export default function PostsProvider({ children }) {
       arrCategories,
       getPost,
       activePost,
+      setActivePost,
     }}>
       {children}
     </PostsContext.Provider>
