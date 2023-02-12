@@ -31,7 +31,7 @@ export default function PostView() {
           ) : (
             <Col sm={10} key={activePost?.id} className="px-0" style={{ height: '50vh' }}>
               <Card className="card">
-                <Card.Img className="card-img" src={activePost?.img} alt="Bologna" style={{ height: '50vh' }} />
+                <Card.Img className="card-img" src={activePost?.img} alt="" style={{ height: '50vh' }} />
                 <Card.ImgOverlay className="card-img-overlay text-white d-flex flex-column justify-content-center">
                   <h5 style={{ position: 'absolute', top: '10px' }}><ArrowBackIcon onClick={() => navigate('/')} /> View Posts</h5>
                   <h4 className="card-title text-center">{activePost?.title}</h4>

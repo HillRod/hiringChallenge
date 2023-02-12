@@ -14,7 +14,7 @@ import NavBar from "./components/Navbar";
 
 export default function Posts() {
 
-  const { posts, getPosts, loading, setActivePost, activePost } = useContext(PostsContext);
+  const { posts, getPosts, loading, setActivePost, activePost, deletePost, filteredPosts, setFilteredPosts } = useContext(PostsContext);
   const navigate = useNavigate();
   //state to control modal
   const [show, setShow] = useState(false);
@@ -23,20 +23,58 @@ export default function Posts() {
   //handle open modal
   const handleShow = () => setShow(true);
 
+  //state de filters
+  const [filter, setFilter] = useState('All');
+  
+
   const handleEdit = (e, post) => {
     e.stopPropagation();
-    setActivePost(...post);
+    setActivePost(post);
+    handleShow();
   }
 
-  const handleDelete = (e) => {
+  const handleDelete = (e, id) => {
     e.stopPropagation();
-    console.log('delete');
+    deletePost(id);
+  }
+
+
+
+  const handleFilter = (filter) => {
+    switch (filter) {
+      case 'All':
+        setFilteredPosts(posts);
+        break;
+      case 'Travel':
+        setFilteredPosts(posts.filter(post => post.category === 'Travel'));
+        break;
+      case 'Food':
+        setFilteredPosts(posts.filter(post => post.category === 'Food'));
+        break;
+      case 'Lifestyle':
+        setFilteredPosts(posts.filter(post => post.category === 'Lifestyle'));
+        break;
+      case 'Work':
+        setFilteredPosts(posts.filter(post => post.category === 'Work'));
+        break;
+      case 'Business':
+        setFilteredPosts(posts.filter(post => post.category === 'Bussiness'));
+        break;
+      default:
+        setFilteredPosts(posts);
+    }
   }
 
   useEffect(() => {
     //Load posts when component is mounted
     getPosts();
   }, []);
+
+  useEffect(() => {
+    if(filter){
+      handleFilter(filter);
+    }
+  }, [filter]);
 
   //Redirect to post detail
   const actionPost = (id) => {
@@ -47,12 +85,12 @@ export default function Posts() {
 
     <>
       <ToastContainer />
-      <PostModal show={show} handleClose={handleClose} />
+      <PostModal show={show} handleClose={handleClose} post={activePost}/>
       <Fab onClick={handleShow} size="small" className="create-post" aria-label="add">
         <EditIcon />
       </Fab>
       <Header />
-      <NavBar />
+      <NavBar setFilter={setFilter} />
       <Container fluid>
         <Row>
           {loading ? (
@@ -62,10 +100,10 @@ export default function Posts() {
           ) : (
             <>
 
-              {posts.map((post) => (
+              {filteredPosts.map((post) => (
                 <Col onClick={() => actionPost(post.id)}  sm={12} md={6} key={post.id} className="px-0">
                   <Card className="card">
-                    <Card.Img className="card-img" src={post.img} alt="Bologna" />
+                    <Card.Img className="card-img" src={post.img} alt="" />
                     <Card.ImgOverlay className="card-img-overlay text-white d-flex flex-column justify-content-center">
                       <h4 className="card-title">{post.title}</h4>
                       <p className="card-text">{post.body}</p>

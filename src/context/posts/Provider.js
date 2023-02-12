@@ -7,6 +7,8 @@ export default function PostsProvider({ children }) {
   //Variables de estado
   //Array de posts
   const [posts, setPosts] = useState([])
+  //Array de posts filtrados
+  const [filteredPosts, setFilteredPosts] = useState([])
   const [loading, setLoading] = useState(false)
 
   //post seleccionado
@@ -26,10 +28,11 @@ export default function PostsProvider({ children }) {
           title: p.title,
           body: p.body,
           category: arrCategories[Math.floor(Math.random() * arrCategories.length)],
-          img: `https://source.unsplash.com/random?sig=${Math.floor(Math.random() * 100000000 * p.id)}`,
+          img: `https://picsum.photos/id/${p.id}/800/`,
         })
       })
       setPosts(posts);
+      setFilteredPosts(posts);
     } catch (error) {
       console.log(error)
     }
@@ -47,7 +50,7 @@ export default function PostsProvider({ children }) {
         title: data.title,
         body: data.body,
         category: arrCategories[Math.floor(Math.random() * arrCategories.length)],
-        img: `https://source.unsplash.com/random?sig=${Math.floor(Math.random() * 100000000 * data.id)}`,
+        img: `https://picsum.photos/id/${data.id}/800`,
       }
       setActivePost(post)
     } catch (error) {
@@ -63,6 +66,7 @@ export default function PostsProvider({ children }) {
       const { data } = await API.post('/posts', post);
       //Agregado de post al array de posts
       setPosts([data, ...posts]);
+      setFilteredPosts([data, ...posts]);
     } catch (error) {
       console.log(error)
     }
@@ -81,6 +85,7 @@ export default function PostsProvider({ children }) {
         return p
       })
       setPosts(newPosts);
+      setFilteredPosts(newPosts);
     }
     catch (error) {
       console.log(error)
@@ -96,6 +101,7 @@ export default function PostsProvider({ children }) {
       await API.delete(`/posts/${id}`);
       const newPosts = posts.filter(p => p.id !== id)
       setPosts(newPosts);
+      setFilteredPosts(newPosts);
     }
     catch (error) {
       console.log(error)
@@ -117,6 +123,8 @@ export default function PostsProvider({ children }) {
       setActivePost,
       editPost,
       deletePost,
+      filteredPosts,
+      setFilteredPosts,
     }}>
       {children}
     </PostsContext.Provider>

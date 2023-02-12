@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { PostsContext } from '../../../context/posts';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -8,13 +8,14 @@ import { toast } from 'react-toastify';
 
 export default function PostModal({ post, show, handleClose }) {
 
-  const { arrCategories, createPost } = useContext(PostsContext);
+  const { arrCategories, createPost, editPost } = useContext(PostsContext);
 
   //form state
-  const [title, setTitle] = useState(post ? post.title : '');
-  const [description, setDescription] = useState(post ? post.body : '');
-  const [category, setCategory] = useState(post ? post.categorie : '');
-  const [imgUrl, setImgUrl] = useState(post ? post.img : '');
+  debugger;
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
 
   const handleCloseModal = () => {
     setTitle('');
@@ -23,6 +24,15 @@ export default function PostModal({ post, show, handleClose }) {
     setImgUrl('');
     handleClose();
   }
+
+  useEffect(() => {
+    if (post) { 
+      setTitle(post.title);
+      setDescription(post.body);
+      setCategory(post.category);
+      setImgUrl(post.img);
+    }
+  }, [post]);
 
   const ValidateForm = () => {
     //regex to validate url
@@ -45,7 +55,7 @@ export default function PostModal({ post, show, handleClose }) {
       return;
     }
     if (post) {//Is editing
-
+      editPost({ id: post.id, title, body: description, category, img: imgUrl})
     } else {//Is creating
       await createPost({ title, body: description, category, img: imgUrl });
     }
