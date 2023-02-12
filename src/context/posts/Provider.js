@@ -12,8 +12,10 @@ export default function PostsProvider({ children }) {
   //post seleccionado
   //const [activePost, setActivePost] = useState(null)
 
+  const arrCategories = ['Travel', 'Lifestyle', 'Business', 'Food', 'Work']
 
   const getPosts = async () => {
+    setLoading(true)
     const { data } = await API.get('/posts');
     // debugger;
     const posts = data.map(p => {
@@ -21,11 +23,16 @@ export default function PostsProvider({ children }) {
         id: p.id,
         title: p.title,
         body: p.body,
-        topic: '',
+        categorie: arrCategories[Math.floor(Math.random() * arrCategories.length)],
         img: `https://source.unsplash.com/random?sig=${Math.floor(Math.random()*100000000*p.id)}`,
       })
     })
     setPosts(posts);
+    setLoading(false)
+  }
+
+  const createPost = async (post) => {
+    setLoading(true)
   }
 
 

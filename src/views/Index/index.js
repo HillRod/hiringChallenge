@@ -19,7 +19,9 @@ export default function Posts() {
       <Container fluid>
         <Row>
           {loading ? (
-            <h1>Loading...</h1>
+            <Col sm={12}>
+              <h1>Loading...</h1>
+            </Col>
           ) : (
             <>
               
@@ -30,6 +32,7 @@ export default function Posts() {
                   <Card.ImgOverlay class="card-img-overlay text-white d-flex flex-column justify-content-center">
                     <h4 class="card-title">{post.title}</h4>
                     <p class="card-text">{post.body}</p>
+                    <p class="card-text">{post.categorie}</p>
                   </Card.ImgOverlay>
                 </Card>
               </Col>
