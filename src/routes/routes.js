@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, useNavigate, } from 'react-rout
 
 import PostsProvider from '../context/posts/Provider'
 import Posts from '../views/Index/index'
+import PostView from '../views/Index/PostView'
 
 
 export default function RoutesPrincipal() {
@@ -14,6 +15,11 @@ export default function RoutesPrincipal() {
         <Route path='/' element={
           <PostsProvider>
             <Posts />
+          </PostsProvider>
+        } />
+        <Route path='/post/:id' element={
+          <PostsProvider>
+            <PostView />
           </PostsProvider>
         } />
 

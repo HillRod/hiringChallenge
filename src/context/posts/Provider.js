@@ -10,7 +10,7 @@ export default function PostsProvider({ children }) {
   const [loading, setLoading] = useState(false)
 
   //post seleccionado
-  //const [activePost, setActivePost] = useState(null)
+  const [activePost, setActivePost] = useState(null)
 
   const arrCategories = ['Travel', 'Lifestyle', 'Business', 'Food', 'Work'];
 
@@ -24,12 +24,28 @@ export default function PostsProvider({ children }) {
         id: p.id,
         title: p.title,
         body: p.body,
-        categorie: arrCategories[Math.floor(Math.random() * arrCategories.length)],
+        category: arrCategories[Math.floor(Math.random() * arrCategories.length)],
         img: `https://source.unsplash.com/random?sig=${Math.floor(Math.random() * 100000000 * p.id)}`,
       })
     })
     setPosts(posts);
     setLoading(false)
+  }
+
+  const getPost = async (id) => {
+    setLoading(true)
+    //Obtencion de datos de la API
+    const { data } = await API.get(`/posts/${id}`);
+    //Mappeado de datos agregando categorias y imagenes
+    const post = {
+      id: data.id,
+      title: data.title,
+      body: data.body,
+      category: arrCategories[Math.floor(Math.random() * arrCategories.length)],
+      img: `https://source.unsplash.com/random?sig=${Math.floor(Math.random() * 100000000 * data.id)}`,
+    }
+    setLoading(false)
+    setActivePost(post)
   }
 
   const createPost = async (post) => {
@@ -48,7 +64,9 @@ export default function PostsProvider({ children }) {
       getPosts,
       loading,
       createPost,
-      arrCategories
+      arrCategories,
+      getPost,
+      activePost,
     }}>
       {children}
     </PostsContext.Provider>

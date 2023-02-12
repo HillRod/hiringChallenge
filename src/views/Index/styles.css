@@ -24,3 +24,13 @@
   object-fit: cover;
   height: 20rem;
 }
+
+.create-post{
+  background-color: #FB7B58 !important;
+  color: white !important;
+  /*put in the bottom right corner*/
+  position: absolute !important;
+  right: 20px !important;
+  top: 150px !important;
+  
+}

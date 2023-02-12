@@ -1,26 +1,59 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { PostsContext } from '../../../context/posts';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Col, Container, Row } from 'react-bootstrap';
 import { TextField, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { toast } from 'react-toastify';
 
 export default function PostModal({ post, show, handleClose }) {
 
-  const { arrCategories } = useContext(PostsContext);
+  const { arrCategories, createPost } = useContext(PostsContext);
 
   //form state
+  const [title, setTitle] = useState(post ? post.title : '');
+  const [description, setDescription] = useState(post ? post.body : '');
+  const [category, setCategory] = useState(post ? post.categorie : '');
+  const [imgUrl, setImgUrl] = useState(post ? post.img : '');
 
-  const handleSave = () => {
+  const handleCloseModal = () => {
+    setTitle('');
+    setDescription('');
+    setCategory('');
+    setImgUrl('');
+    handleClose();
+  }
+
+  const ValidateForm = () => {
+    //regex to validate url
+    const regex = new RegExp('^(https?:\\/\\/)?' + // protocol 
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+
+    if (title === '' || description === '' || category === '' || imgUrl === '' || !regex.test(imgUrl)) {
+      return false;
+    }
+    return true;
+  }
+
+  const handleSave = async () => {
+    if (!ValidateForm()) {
+      toast.warning('Please fill all the fields correctly');
+      return;
+    }
     if (post) {//Is editing
 
     } else {//Is creating
-
+      await createPost({ title, body: description, category, img: imgUrl });
     }
+    handleCloseModal();
   }
 
   return (
-    <Modal show={true} onHide={handleClose} centered>
+    <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton={false} className='justify-content-center'>
         <Modal.Title>{post ? 'Edit Post' : 'Create Post'}</Modal.Title>
       </Modal.Header>
@@ -28,32 +61,32 @@ export default function PostModal({ post, show, handleClose }) {
         <Container>
           <Row>
             <Col>
-              <TextField className='my-3' fullWidth id="filled-basic" label="Title" variant="filled" />
-              <TextField className='my-3' fullWidth id="filled-basic" label="Description" variant="filled" />
+              <TextField value={title} onChange={(e) => setTitle(e.target.value)} className='my-3' fullWidth id="filled-basic" label="Title" variant="filled" />
+              <TextField value={description} onChange={(e) => setDescription(e.target.value)} className='my-3' fullWidth id="filled-basic" label="Description" variant="filled" />
               <FormControl fullWidth className='my-3'>
                 <InputLabel id="demo-simple-select-label">Category</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  // value={age}
+                  value={category}
                   label="Category"
-                // onChange={handleChange}
+                  onChange={(e) => setCategory(e.target.value)}
                 >
                   {arrCategories.map((categorie, i) => (
                     <MenuItem key={i} value={categorie}>{categorie}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
-              <TextField className='my-3' fullWidth id="filled-basic" label="URL of the image" variant="filled" />
+              <TextField value={imgUrl} onChange={(e) => setImgUrl(e.target.value)} className='my-3' fullWidth id="filled-basic" label="URL of the image" variant="filled" />
             </Col>
           </Row>
         </Container>
       </Modal.Body>
       <Modal.Footer className='justify-content-around'>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleCloseModal}>
           Cancel
         </Button>
-        <Button variant="primary" onClick={handleClose}>
+        <Button variant="primary" onClick={handleSave}>
           Save
         </Button>
       </Modal.Footer>
