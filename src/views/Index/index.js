@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Fab } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { PostsContext } from "../../context/posts";
 import Header from "./components/Header";
@@ -13,7 +14,7 @@ import NavBar from "./components/Navbar";
 
 export default function Posts() {
 
-  const { posts, getPosts, loading } = useContext(PostsContext);
+  const { posts, getPosts, loading, setActivePost, activePost } = useContext(PostsContext);
   const navigate = useNavigate();
   //state to control modal
   const [show, setShow] = useState(false);
@@ -21,6 +22,16 @@ export default function Posts() {
   const handleClose = () => setShow(false);
   //handle open modal
   const handleShow = () => setShow(true);
+
+  const handleEdit = (e, post) => {
+    e.stopPropagation();
+    setActivePost(...post);
+  }
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    console.log('delete');
+  }
 
   useEffect(() => {
     //Load posts when component is mounted
@@ -59,6 +70,10 @@ export default function Posts() {
                       <h4 className="card-title">{post.title}</h4>
                       <p className="card-text">{post.body}</p>
                       <p className="card-text">{post.category}</p>
+                      <div style={{ position: 'absolute', bottom: '30px', right: '30px' }}>
+                          <EditIcon onClick={e => handleEdit(e, post)}/>
+                          <DeleteIcon onClick={e => handleDelete(e, post.id)} className='m-3'/>
+                      </div>
                     </Card.ImgOverlay>
                   </Card>
                 </Col>
